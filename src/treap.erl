@@ -4,7 +4,8 @@
          new/2, 
          merge/2, 
          split/2,
-         add/2
+         add/2,
+         remove/2
     ]).
 
 -include("treap.hrl").
@@ -25,7 +26,7 @@ merge(#treap{y = Y1, left = Left1, right = Right1}=Left,
 split(_X,nil) -> {nil,nil};
 split(X0, #treap{x = X, left = Left, right = Right} = T)-> 
     if
-        X < X0 -> {T1, T2} =  split(X0,Right),
+        X =< X0 -> {T1, T2} =  split(X0,Right),
                   {T#treap{right = T1},T2};
         true ->   {T1, T2} =  split(X0,Left),
                   {T1,T#treap{left = T2}}
@@ -35,3 +36,8 @@ add(X,T)->
     {T1, T2} = split(X,T),
     New = new(X),
     merge(merge(T1, New),T2).
+
+remove(X, T)-> 
+    {L,R0} = split(X-1, T),
+    {_, R} = split(X, R0),
+    merge(L,R).
