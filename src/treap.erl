@@ -2,6 +2,7 @@
 
 -export([new/1,
          new/2, 
+         is_empty/1,
          merge/2, 
          split/2,
          add/2,
@@ -53,6 +54,8 @@ remove(X, T)->
     {_, R} = split(X, R0),
     merge(L,R).
 
+is_empty(nil)-> true;
+is_empty(#treap{})-> false.
 
 is_key(_X, nil) -> false;
 is_key(X,#treap{x = X})-> true;
